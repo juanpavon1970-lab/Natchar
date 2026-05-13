@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Menú — Natchar</title>
+
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/nav.css">
+  <link rel="stylesheet" href="css/menu.css">
+</head>
+<body>
+
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-dot" id="cursorDot"></div>
+
+  <!-- NAV -->
+  <nav>
+    <a href="index.html" class="nav-logo">Nat<span>ch</span>ar</a>
+    <ul>
+      <li><a href="index.html">Inicio</a></li>
+      <li><a href="menu.html" class="activo">Menú</a></li>
+      <li><a href="nosotros.html">Nosotros</a></li>
+      <li><a href="reservas.html">Reservar</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO MENU -->
+  <section class="menu-hero">
+    <div class="hero-bg"></div>
+    <p class="hero-eyebrow">Lo que nos define</p>
+    <h1 class="menu-hero-title">Nuestra<br><span>Cocina</span></h1>
+    <p class="menu-hero-sub">Cada plato es un ritual. Cada ingrediente, una historia.</p>
+  </section>
+
+  <!-- FILTROS -->
+  <section class="filtros-section">
+    <div class="filtros">
+      <button class="filtro-btn activo" data-filtro="todos">Todos</button>
+      <button class="filtro-btn" data-filtro="amanecer">☕ Amanecer</button>
+      <button class="filtro-btn" data-filtro="brunch">☀ Brunch</button>
+      <button class="filtro-btn" data-filtro="almuerzo">🍽 Almuerzo</button>
+      <button class="filtro-btn" data-filtro="tarde">🌙 Media Tarde</button>
+    </div>
+  </section>
+
+  <!-- PLATOS -->
+  <section class="section">
+    <div class="platos-grid" id="platosGrid"></div>
+  </section>
+
+  <!-- VOLVER -->
+  <div class="volver-wrap">
+    <a href="index.html" class="btn-ghost">← Volver al inicio</a>
+  </div>
+
+  <script>
+    // --- Datos de los platos ---
+    const platos = [
+    {
+        id: 1,
+        categoria: "Desayuno ancestral",
+        nombre: "Changua de la Abuela",
+        descripcion: "Leche entera, huevo pochado, cebolla larga y cilantro. Con pan de yuca artesanal.",
+        precio: 18000,
+        horario: "amanecer",
+        imagen: "https://cloudfront-us-east-1.images.arcpublishing.com/elespectador/NPXQVF6UXBDQ7FOGJBJADJL4CM.jpg"
+    },
+    {
+        id: 2,
+        categoria: "Bebida sagrada",
+        nombre: "Café Estrella del Sur",
+        descripcion: "Café de origen Valle del Cauca, chemex o prensa francesa. Con panela artesanal.",
+        precio: 9000,
+        horario: "amanecer",
+        imagen: "https://www.lavazzausa.com/content/dam/lavazza-athena/b2c/stories/article/coffee-secrets/how-to-make-flat-white-coffee/hero/m-HOW-TO-SLOT-1@2.jpg"
+    },
+    {
+        id: 3,
+        categoria: "Desayuno ancestral",
+        nombre: "Calentado Caleño",
+        descripcion: "Arroz, fríjoles y carne del día anterior, revueltos en manteca. Con huevo frito y arepa.",
+        precio: 16000,
+        horario: "amanecer",
+        imagen: "https://www.unileverfoodsolutions.com.co/dam/global-ufs/mcos/nola/colombia/calcmenu/recipes/CO-recipes/soups/calentado-de-frijoles/main-header.jpg"
+    },
+    {
+        id: 4,
+        categoria: "Brunch estelar",
+        nombre: "Tamal Caleño Natchar",
+        descripcion: "Masa de maíz, cerdo, pollo, zanahoria y arveja. Envuelto en hoja de bijao. Con ají casero.",
+        precio: 22000,
+        horario: "brunch",
+        imagen: "https://s3.amazonaws.com/rtvc-assets-senalcolombia.gov.co/s3fs-public/inline-images/tamal%20santandereano.jpg"
+    },
+    {
+        id: 5,
+        categoria: "Brunch estelar",
+        nombre: "Aborrajados con Hogao",
+        descripcion: "Plátano maduro relleno de queso blanco, apanado y frito. Con hogao casero y ají de maní.",
+        precio: 14000,
+        horario: "brunch",
+        imagen: "https://familiakitchen.com/wp-content/uploads/2020/12/iStock-1213756718.jpg"
+    },
+    {
+        id: 6,
+        categoria: "Brunch estelar",
+        nombre: "Jugo de Lulo con Leche",
+        descripcion: "Lulo fresco del Valle, batido con leche entera y azúcar morena.",
+        precio: 8000,
+        horario: "brunch",
+        imagen: "https://vecinavegetariana.com/wp-content/uploads/2022/05/Lulada-Lulo-Drink-Bebida-de-Lulo-Naranjilla-2-1-500x500.jpg"
+    },
+    {
+        id: 7,
+        categoria: "Almuerzo mayor",
+        nombre: "Bandeja Paisa Completa",
+        descripcion: "Fríjoles, arroz, chicharrón, chorizo, morcilla, aguacate, huevo frito, maduro y arepa.",
+        precio: 38000,
+        horario: "almuerzo",
+        imagen: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrZR_jBTr-NkgPo1nLqkeEnEIyo_zzzjmvXg&s"
+    },
+    {
+        id: 8,
+        categoria: "Almuerzo mayor",
+        nombre: "Sancocho de Gallina Criolla",
+        descripcion: "Gallina criolla, papa criolla, mazorca, yuca y plátano. Seis horas de cocción lenta.",
+        precio: 32000,
+        horario: "almuerzo",
+        imagen: "https://cdn.colombia.com/gastronomia/2011/07/28/sancocho-de-gallina-1594.gif"
+    },
+    {
+        id: 9,
+        categoria: "Almuerzo mayor",
+        nombre: "Sudado de Pescado Pacífico",
+        descripcion: "Pescado del Pacífico sudado en tomate, cebolla y leche de coco. Con patacones y arroz.",
+        precio: 35000,
+        horario: "almuerzo",
+        imagen: "https://imag.bonviveur.com/sudado-de-pescado.jpg"
+    },
+    {
+        id: 10,
+        categoria: "Media tarde",
+        nombre: "El Domingo Eterno",
+        descripcion: "Buñuelos, natilla, bollo de choclo y agua de panela con limón y jengibre.",
+        precio: 24000,
+        horario: "tarde",
+        imagen: "https://www.abc.com.py/resizer/v2/ZQTKVYV5FRFKBBVCOZEJBUCCMQ.jpg?auth=63d440ef321f891f91f5b020e7369c63f65cb788129b01904581020665ffd5ea&width=1920&smart=true"
+    },
+    {
+        id: 11,
+        categoria: "Media tarde",
+        nombre: "Empanadas de Pipián",
+        descripcion: "Masa de maíz amarillo rellena de papas con hogao y pipián. Con ají de maní.",
+        precio: 12000,
+        horario: "tarde",
+        imagen: "https://cloudfront-us-east-1.images.arcpublishing.com/elespectador/ZOBSVBKWEVGAHHMSHEWNBH5N2Q.jpg"
+    },
+    {
+        id: 12,
+        categoria: "Media tarde",
+        nombre: "Agua de Panela con Queso",
+        descripcion: "Panela de caña disuelta en agua caliente. Con queso blanco campesino para derretir.",
+        precio: 7000,
+        horario: "tarde",
+        imagen: "https://vecinavegetariana.com/wp-content/uploads/2022/04/Aguapanela-Colombiana-3-2.jpeg"
+    }
+    ]
+    
+
+    // --- Renderizar platos ---
+    function renderizarPlatos(lista) {
+        const grid = document.getElementById('platosGrid')
+        grid.innerHTML = lista.map((plato, i) => `
+            <div class="plato" data-id="${plato.id}">
+            <div class="plato-img">
+                <img src="${plato.imagen}" alt="${plato.nombre}" loading="lazy">
+                <div class="plato-img-overlay"></div>
+                <span class="plato-ver-mas">Ver más ↗</span>
+            </div>
+            <div class="plato-content">
+                <span class="plato-num">0${i + 1}</span>
+                <p class="plato-cat">${plato.categoria}</p>
+                <p class="plato-name">${plato.nombre}</p>
+                <p class="plato-desc">${plato.descripcion}</p>
+                <p class="plato-price"><span>$</span> ${plato.precio.toLocaleString('es-CO')} COP</p>
+            </div>
+        </div>
+    `).join('')
+
+    // Agregar eventos después de renderizar
+    grid.querySelectorAll('.plato').forEach(card => {
+        card.addEventListener('click', () => {
+        const id = parseInt(card.dataset.id)
+        const plato = lista.find(p => p.id === id)
+        if (plato) abrirModal(plato)
+        })
+    })
+    }
+
+    // Mostrar todos al cargar
+    renderizarPlatos(platos)
+
+    // --- Filtros ---
+    document.querySelectorAll('.filtro-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        // Marcar activo
+        document.querySelectorAll('.filtro-btn').forEach(b => b.classList.remove('activo'))
+        btn.classList.add('activo')
+
+        // Filtrar
+        const filtro = btn.dataset.filtro
+        const filtrados = filtro === 'todos'
+          ? platos
+          : platos.filter(p => p.horario === filtro)
+
+        renderizarPlatos(filtrados)
+      })
+    })
+
+    // --- Cursor ---
+    const cursor = document.getElementById('cursor')
+    const dot = document.getElementById('cursorDot')
+    let mx = 0, my = 0, cx = 0, cy = 0
+
+    document.addEventListener('mousemove', e => {
+      mx = e.clientX
+      my = e.clientY
+      dot.style.left = mx + 'px'
+      dot.style.top = my + 'px'
+    })
+
+    function animarCursor() {
+      cx += (mx - cx) * 0.12
+      cy += (my - cy) * 0.12
+      cursor.style.left = cx + 'px'
+      cursor.style.top = cy + 'px'
+      requestAnimationFrame(animarCursor)
+    }
+    animarCursor()
+
+    document.querySelectorAll('a, button').forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        cursor.style.transform = 'translate(-50%, -50%) scale(2)'
+        cursor.style.borderColor = 'var(--gold)'
+      })
+      el.addEventListener('mouseleave', () => {
+        cursor.style.transform = 'translate(-50%, -50%) scale(1)'
+        cursor.style.borderColor = 'var(--cyber-teal)'
+      })
+    })
+    // --- Modal ---
+function abrirModal(plato) {
+  document.getElementById('modalImg').src      = plato.imagen
+  document.getElementById('modalImg').alt      = plato.nombre
+  document.getElementById('modalCat').textContent    = plato.categoria
+  document.getElementById('modalNombre').textContent = plato.nombre
+  document.getElementById('modalDesc').textContent   = plato.descripcion
+  document.getElementById('modalPrecio').innerHTML   = `<span>$</span> ${plato.precio.toLocaleString('es-CO')} COP`
+
+  document.getElementById('modalOverlay').classList.add('activo')
+  document.body.style.overflow = 'hidden'
+}
+
+function cerrarModal() {
+  document.getElementById('modalOverlay').classList.remove('activo')
+  document.body.style.overflow = ''
+}
+
+// Cerrar con Escape
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') cerrarModal()
+})
+  </script>
+<!-- MODAL IMAGEN -->
+<div class="modal-overlay" id="modalOverlay" onclick="cerrarModal()">
+  <div class="modal-content" onclick="event.stopPropagation()">
+    <button class="modal-cerrar" onclick="cerrarModal()">✕</button>
+    <div class="modal-img-wrap">
+      <img id="modalImg" src="" alt="">
+    </div>
+    <div class="modal-info">
+      <p class="modal-cat" id="modalCat"></p>
+      <h3 class="modal-nombre" id="modalNombre"></h3>
+      <p class="modal-desc" id="modalDesc"></p>
+      <p class="modal-precio" id="modalPrecio"></p>
+    </div>
+  </div>
+</div>
+</body>
+</html>

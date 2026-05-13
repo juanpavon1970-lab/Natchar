@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel — Natchar</title>
+
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/nav.css">
+  <link rel="stylesheet" href="css/panel.css">
+</head>
+<body>
+    <div class="cursor" id="cursor"></div>
+    <div class="cursor-dot" id="cursorDot"></div>
+    <!-- LOGIN -->
+<div class="login-wrap" id="loginWrap" style="display:none">
+  <div class="login-box">
+    <p class="login-eyebrow">Acceso restringido</p>
+    <h2 class="login-title">Panel<br><span>Natchar</span></h2>
+    <div class="form-group">
+      <label class="form-label">Contraseña</label>
+      <input type="password" class="form-input" id="loginPassword" placeholder="••••••••">
+      <p class="field-hint error" id="loginError" style="display:none"></p>
+    </div>
+    <button class="btn-reservar" id="btnLogin">Entrar</button>
+  </div>
+</div>
+
+<!-- PANEL COMPLETO -->
+<div id="panelWrap" style="display:none">
+
+
+
+  <!-- NAV -->
+  <nav>
+    <a href="index.html" class="nav-logo">Nat<span>ch</span>ar</a>
+    <ul>
+      <li><a href="index.html">Inicio</a></li>
+      <li><a href="menu.html">Menú</a></li>
+      <li><a href="nosotros.html">Nosotros</a></li>
+      <li><a href="reservas.html">Reservar</a></li>
+      <li><a href="panel.html" class="activo">Panel</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="panel-hero">
+    <div class="hero-bg"></div>
+    <p class="hero-eyebrow">Administración</p>
+    <h1 class="panel-hero-title">Panel de<br><span>Reservas</span></h1>
+  </section>
+
+  <!-- STATS -->
+  <section class="section stats-section">
+    <div class="stats-grid">
+      <div class="stat-card">
+        <p class="stat-num" id="totalReservas">—</p>
+        <p class="stat-label">Total reservas</p>
+      </div>
+      <div class="stat-card">
+        <p class="stat-num" id="reservasHoy">—</p>
+        <p class="stat-label">Para hoy</p>
+      </div>
+      <div class="stat-card">
+        <p class="stat-num" id="proximaSemana">—</p>
+        <p class="stat-label">Esta semana</p>
+      </div>
+      <div class="stat-card">
+        <p class="stat-num" id="totalPersonas">—</p>
+        <p class="stat-label">Total personas</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FILTROS -->
+  <section class="filtros-panel">
+    <div class="filtros">
+      <button class="filtro-btn activo" data-filtro="todas">Todas</button>
+      <button class="filtro-btn" data-filtro="amanecer">☕ Amanecer</button>
+      <button class="filtro-btn" data-filtro="brunch">☀ Brunch</button>
+      <button class="filtro-btn" data-filtro="almuerzo">🍽 Almuerzo</button>
+      <button class="filtro-btn" data-filtro="tarde">🌙 Media Tarde</button>
+    </div>
+    <button class="btn-refresh" id="btnRefresh">↻ Actualizar</button>
+    <button class="btn-papelera" id="btnPapelera">🗑 Papelera</button>
+  </section>
+
+  <!-- TABLA -->
+  <section class="section tabla-section">
+    <div class="tabla-wrap">
+      <div class="loading" id="loading">
+        <div class="loading-dot"></div>
+        <div class="loading-dot"></div>
+        <div class="loading-dot"></div>
+      </div>
+      <div id="sinReservas" class="sin-reservas" style="display:none">
+        <p>✦ No hay reservas aún</p>
+      </div>
+      <table class="tabla" id="tablaReservas" style="display:none">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Nombre</th>
+            <th>WhatsApp</th>
+            <th>Fecha</th>
+            <th>Personas</th>
+            <th>Horario</th>
+            <th>Nota</th>
+            <th>Recibida</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="tablaBody"></tbody>
+      </table>
+    </div>
+  </section>
+<!-- PAPELERA -->
+<section class="section papelera-section" id="papeleraSection" style="display:none">
+  <p class="section-label">Historial</p>
+  <h2 class="section-title">Papelera</h2>
+
+  <div class="tabla-wrap">
+    <div class="loading" id="loadingPapelera">
+      <div class="loading-dot"></div>
+      <div class="loading-dot"></div>
+      <div class="loading-dot"></div>
+    </div>
+    <div id="sinPapelera" class="sin-reservas" style="display:none">
+      <p>✦ La papelera está vacía</p>
+    </div>
+    <table class="tabla" id="tablaPapelera" style="display:none">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Nombre</th>
+          <th>Teléfono</th>
+          <th>Fecha reserva</th>
+          <th>Horario</th>
+          <th>Razón</th>
+          <th>Eliminada</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody id="papeleraBody"></tbody>
+    </table>
+  </div>
+
+  <div style="text-align:center; margin-top:2rem">
+    <button class="btn-ghost" id="btnVolverPanel">← Volver al panel</button>
+  </div>
+</section>
+  <!-- VOLVER -->
+  <div class="volver-wrap">
+    <a href="index.html" class="btn-ghost">← Volver al inicio</a>
+  </div>
+
+<script>
+  let todasLasReservas = []
+  let filtroActivo = 'todas'
+  let tokenPanel = null
+  const SESION_MINUTOS = 120 // 2 horas
+  let timerSesion = null
+
+  const horarioEmoji = {
+    amanecer: '☕ Amanecer',
+    brunch:   '☀ Brunch',
+    almuerzo: '🍽 Almuerzo',
+    tarde:    '🌙 Media Tarde'
+  }
+
+  // ─────────────────────────────────
+  // CURSOR — corre siempre, desde el inicio
+  // ─────────────────────────────────
+  const cursor = document.getElementById('cursor')
+  const dot    = document.getElementById('cursorDot')
+  let mx = 0, my = 0, cx = 0, cy = 0
+
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX
+    my = e.clientY
+    dot.style.left = mx + 'px'
+    dot.style.top  = my + 'px'
+  })
+
+  function animarCursor() {
+    cx += (mx - cx) * 0.12
+    cy += (my - cy) * 0.12
+    cursor.style.left = cx + 'px'
+    cursor.style.top  = cy + 'px'
+    requestAnimationFrame(animarCursor)
+  }
+  animarCursor()
+
+  function actualizarCursorHover() {
+    document.querySelectorAll('a, button, input').forEach(el => {
+      el.removeEventListener('mouseenter', cursorEnter)
+      el.removeEventListener('mouseleave', cursorLeave)
+      el.addEventListener('mouseenter', cursorEnter)
+      el.addEventListener('mouseleave', cursorLeave)
+    })
+  }
+
+  function cursorEnter() {
+    cursor.style.transform   = 'translate(-50%, -50%) scale(2)'
+    cursor.style.borderColor = 'var(--gold)'
+  }
+  function cursorLeave() {
+    cursor.style.transform   = 'translate(-50%, -50%) scale(1)'
+    cursor.style.borderColor = 'var(--cyber-teal)'
+  }
+
+  // Activar cursor en elementos actuales y futuros
+  actualizarCursorHover()
+
+  // ─────────────────────────────────
+  // SESIÓN
+  // ─────────────────────────────────
+  function iniciarTimerSesion() {
+    if (timerSesion) clearTimeout(timerSesion)
+    timerSesion = setTimeout(() => {
+      cerrarSesion('Tu sesión expiró por inactividad')
+    }, SESION_MINUTOS * 60 * 1000)
+  }
+
+  function cerrarSesion(mensaje) {
+    sessionStorage.removeItem('natchar_token')
+    sessionStorage.removeItem('natchar_expira')
+    tokenPanel = null
+    if (timerSesion) clearTimeout(timerSesion)
+    if (mensaje) alert(mensaje)
+    mostrarLogin()
+  }
+
+  // Renovar sesión con cualquier acción del usuario
+  document.addEventListener('click', () => { if (tokenPanel) iniciarTimerSesion() })
+  document.addEventListener('keydown', () => { if (tokenPanel) iniciarTimerSesion() })
+
+  // ─────────────────────────────────
+  // LOGIN
+  // ─────────────────────────────────
+  async function login(password) {
+    try {
+      const res  = await fetch('/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password })
+      })
+      const data = await res.json()
+
+      if (data.ok) {
+        tokenPanel = data.token
+        sessionStorage.setItem('natchar_token', tokenPanel)
+        iniciarTimerSesion()
+        mostrarPanel()
+      } else {
+        document.getElementById('loginError').textContent = 'Contraseña incorrecta'
+        document.getElementById('loginError').style.display = 'block'
+        // Shake en el input
+        const input = document.getElementById('loginPassword')
+        input.style.borderColor = 'rgba(139,26,26,0.8)'
+        input.value = ''
+        setTimeout(() => {
+          input.style.borderColor = 'rgba(201,168,76,0.2)'
+        }, 2000)
+      }
+    } catch (err) {
+      console.error('Error login:', err)
+    }
+  }
+
+  function mostrarLogin() {
+    document.getElementById('loginWrap').style.display = 'flex'
+    document.getElementById('panelWrap').style.display = 'none'
+    setTimeout(actualizarCursorHover, 100)
+  }
+
+  function mostrarPanel() {
+    document.getElementById('loginWrap').style.display = 'none'
+    document.getElementById('panelWrap').style.display = 'block'
+    setTimeout(actualizarCursorHover, 100)
+    cargarReservas()
+  }
+
+  // Botón y Enter del login
+  document.getElementById('btnLogin').addEventListener('click', () => {
+    const password = document.getElementById('loginPassword').value
+    if (!password) return
+    login(password)
+  })
+
+  document.getElementById('loginPassword').addEventListener('keydown', e => {
+    if (e.key === 'Enter') document.getElementById('btnLogin').click()
+  })
+
+  // ─────────────────────────────────
+  // RESERVAS
+  // ─────────────────────────────────
+  async function cargarReservas() {
+    document.getElementById('loading').style.display       = 'flex'
+    document.getElementById('tablaReservas').style.display = 'none'
+    document.getElementById('sinReservas').style.display   = 'none'
+
+    try {
+      const res = await fetch('/api/reservas', {
+        headers: { 'x-panel-token': tokenPanel }
+      })
+
+      if (res.status === 401) {
+        cerrarSesion('Sesión inválida. Ingresa de nuevo.')
+        return
+      }
+
+      const data = await res.json()
+      todasLasReservas = data.reservas
+      actualizarStats(data.reservas)
+      renderizarTabla(data.reservas)
+      setTimeout(actualizarCursorHover, 200)
+
+    } catch (err) {
+      console.error('Error:', err)
+      document.getElementById('loading').style.display = 'none'
+    }
+  }
+
+  function actualizarStats(reservas) {
+    const hoy = new Date().toISOString().split('T')[0]
+    const inicioSemana = new Date()
+    inicioSemana.setDate(inicioSemana.getDate() - inicioSemana.getDay())
+    const finSemana = new Date(inicioSemana)
+    finSemana.setDate(finSemana.getDate() + 6)
+
+    const hoyCount      = reservas.filter(r => r.fecha === hoy).length
+    const semanaCount   = reservas.filter(r => {
+      const f = new Date(r.fecha)
+      return f >= inicioSemana && f <= finSemana
+    }).length
+    const totalPersonas = reservas.reduce((sum, r) => sum + r.personas, 0)
+
+    document.getElementById('totalReservas').textContent = reservas.length
+    document.getElementById('reservasHoy').textContent   = hoyCount
+    document.getElementById('proximaSemana').textContent = semanaCount
+    document.getElementById('totalPersonas').textContent = totalPersonas
+  }
+
+  function renderizarTabla(reservas) {
+    document.getElementById('loading').style.display = 'none'
+
+    const filtradas = filtroActivo === 'todas'
+      ? reservas
+      : reservas.filter(r => r.horario === filtroActivo)
+
+    if (filtradas.length === 0) {
+      document.getElementById('sinReservas').style.display   = 'block'
+      document.getElementById('tablaReservas').style.display = 'none'
+      return
+    }
+
+    document.getElementById('sinReservas').style.display   = 'none'
+    document.getElementById('tablaReservas').style.display = 'table'
+
+    document.getElementById('tablaBody').innerHTML = filtradas.map(r => `
+      <tr>
+        <td class="td-id">#${r.id}</td>
+        <td class="td-nombre">${r.nombre}</td>
+        <td class="td-tel">
+          <a href="https://wa.me/${r.telefono.replace(/\D/g,'')}" target="_blank">
+            ${r.telefono}
+          </a>
+        </td>
+        <td class="td-fecha">${formatearFecha(r.fecha)}</td>
+        <td class="td-personas">${r.personas} 👤</td>
+        <td class="td-horario">${horarioEmoji[r.horario] || r.horario}</td>
+        <td class="td-nota">${r.nota || '—'}</td>
+        <td class="td-creada">${r.creada_en}</td>
+        <td>
+          <button class="btn-eliminar" onclick="eliminarReserva(${r.id})">✕</button>
+        </td>
+      </tr>
+    `).join('')
+
+    setTimeout(actualizarCursorHover, 100)
+  }
+
+  function formatearFecha(fecha) {
+    const [y, m, d] = fecha.split('-')
+    const meses = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic']
+    return `${d} ${meses[parseInt(m)-1]} ${y}`
+  }
+
+  async function eliminarReserva(id) {
+    if (!confirm('¿Mover esta reserva a la papelera?')) return
+    try {
+      await fetch(`/api/reservas/${id}`, {
+        method: 'DELETE',
+        headers: { 'x-panel-token': tokenPanel }
+      })
+      await cargarReservas()
+    } catch (err) {
+      console.error('Error al eliminar:', err)
+    }
+  }
+
+  // Filtros
+  document.querySelectorAll('.filtro-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filtro-btn').forEach(b => b.classList.remove('activo'))
+      btn.classList.add('activo')
+      filtroActivo = btn.dataset.filtro
+      renderizarTabla(todasLasReservas)
+    })
+  })
+
+  document.getElementById('btnRefresh').addEventListener('click', cargarReservas)
+
+  // ─────────────────────────────────
+  // ARRANCAR
+  // ─────────────────────────────────
+  const tokenGuardado = sessionStorage.getItem('natchar_token')
+  if (tokenGuardado) {
+    tokenPanel = tokenGuardado
+    iniciarTimerSesion()
+    mostrarPanel()
+  } else {
+    mostrarLogin()
+  }
+
+  // Garantizar cursor activo sin importar qué pantalla cargue
+  setTimeout(actualizarCursorHover, 50)
+  setTimeout(actualizarCursorHover, 300)
+  setTimeout(actualizarCursorHover, 800)
+
+// --- Papelera ---
+let viendoPapelera = false
+
+async function cargarPapelera() {
+  document.getElementById('loadingPapelera').style.display  = 'flex'
+  document.getElementById('tablaPapelera').style.display    = 'none'
+  document.getElementById('sinPapelera').style.display      = 'none'
+
+  try {
+    const res  = await fetch('/api/papelera', {
+      headers: { 'x-panel-token': tokenPanel }
+    })
+    const data = await res.json()
+
+    document.getElementById('loadingPapelera').style.display = 'none'
+
+    if (data.items.length === 0) {
+      document.getElementById('sinPapelera').style.display = 'block'
+      return
+    }
+
+    document.getElementById('tablaPapelera').style.display = 'table'
+
+    const hoy = new Date().toISOString().split('T')[0]
+
+    document.getElementById('papeleraBody').innerHTML = data.items.map(item => {
+      const vencida     = item.fecha < hoy
+      const razonTexto  = {
+        'eliminada_manualmente': '🗑 Cancelada',
+        'cancelada_por_usuario': '👤 Usuario canceló',
+        'fecha_vencida':         '📅 Fecha vencida'
+      }[item.razon] || item.razon
+
+      return `
+        <tr class="${vencida ? 'fila-vencida' : ''}">
+          <td class="td-id">#${item.id}</td>
+          <td class="td-nombre">${item.nombre}</td>
+          <td>${item.telefono}</td>
+          <td class="td-fecha">${formatearFecha(item.fecha)}</td>
+          <td>${horarioEmoji[item.horario] || item.horario}</td>
+          <td>${razonTexto}</td>
+          <td class="td-creada">${item.eliminada_en}</td>
+          <td>
+            ${!vencida && item.razon === 'eliminada_manualmente'
+              ? `<button class="btn-recuperar" onclick="recuperarReserva(${item.id})">↩ Recuperar</button>`
+              : '<span class="no-recuperar">—</span>'
+            }
+          </td>
+        </tr>
+      `
+    }).join('')
+
+    setTimeout(actualizarCursorHover, 100)
+
+  } catch (err) {
+    console.error('Error papelera:', err)
+  }
+}
+
+async function recuperarReserva(id) {
+  if (!confirm('¿Recuperar esta reserva?')) return
+
+  try {
+    const res  = await fetch(`/api/papelera/${id}/recuperar`, {
+      method: 'PUT',
+      headers: { 'x-panel-token': tokenPanel }
+    })
+    const data = await res.json()
+
+    if (data.ok) {
+      await cargarPapelera()
+    } else {
+      alert(data.error)
+    }
+  } catch (err) {
+    console.error('Error al recuperar:', err)
+  }
+}
+
+function mostrarPapelera() {
+  viendoPapelera = true
+  document.querySelector('.stats-section').style.display    = 'none'
+  document.querySelector('.filtros-panel').style.display    = 'none'
+  document.querySelector('.tabla-section').style.display    = 'none'
+  document.getElementById('papeleraSection').style.display  = 'block'
+  cargarPapelera()
+}
+
+function volverAlPanel() {
+  viendoPapelera = false
+  document.querySelector('.stats-section').style.display    = 'block'
+  document.querySelector('.filtros-panel').style.display    = 'flex'
+  document.querySelector('.tabla-section').style.display    = 'block'
+  document.getElementById('papeleraSection').style.display  = 'none'
+}
+
+document.getElementById('btnPapelera').addEventListener('click', mostrarPapelera)
+document.getElementById('btnVolverPanel').addEventListener('click', volverAlPanel)
+
+</script>
+</div> <!-- fin panelWrap -->
+</body>
+<style>
+  * { cursor: none !important; }
+</style>
+</html>

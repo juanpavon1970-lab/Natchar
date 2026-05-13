@@ -1,0 +1,136 @@
+/* ================================
+   NATCHAR — Componentes reutilizables
+   Estos estilos se usan en TODAS
+   las páginas. Botones, tags, 
+   títulos de sección, etc.
+================================ */
+
+/* --- Botones --- */
+.btn-primary {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  padding: 1rem 2.5rem;
+  background: var(--gold);
+  color: var(--obsidian);
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+  transition: background 0.3s, box-shadow 0.3s;
+}
+.btn-primary:hover {
+  background: var(--gold-light);
+  box-shadow: 0 0 30px rgba(201,168,76,0.4);
+}
+
+.btn-ghost {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.85rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  padding: 1rem 2.5rem;
+  background: transparent;
+  color: var(--cyber-teal);
+  border: 1px solid rgba(0,255,209,0.4);
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+  transition: background 0.3s, box-shadow 0.3s;
+}
+.btn-ghost:hover {
+  background: rgba(0,255,209,0.08);
+  box-shadow: 0 0 30px rgba(0,255,209,0.2);
+}
+
+/* --- Etiquetas de sección --- */
+.section-label {
+  font-size: 0.65rem;
+  letter-spacing: 0.5em;
+  text-transform: uppercase;
+  color: var(--cyber-teal);
+  margin-bottom: 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.section-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, rgba(0,255,209,0.3), transparent);
+  max-width: 200px;
+}
+
+.section-title {
+  font-family: var(--font-title);
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  font-weight: 700;
+  color: var(--gold);
+  margin-bottom: 3rem;
+  line-height: 1.1;
+}
+
+/* --- Tags pequeños --- */
+.tag {
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border: 0.5px solid rgba(201,168,76,0.3);
+  color: var(--text-dim);
+}
+
+/* --- Secciones genéricas --- */
+.section {
+  padding: 6rem 3rem;
+  position: relative;
+}
+
+/* --- Divisor dorado --- */
+.divider {
+  width: 100px;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--gold), transparent);
+  margin: 1.5rem auto;
+}
+
+
+/* --- Cursor --- */
+body { cursor: none; }
+
+.cursor {
+  width: 12px;
+  height: 12px;
+  border: 1px solid var(--cyber-teal);
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  left: 0; top: 0;
+  transform: translate(-50%, -50%);
+  transition: transform 0.15s, border-color 0.3s;
+  mix-blend-mode: screen;
+}
+
+.cursor-dot {
+  width: 4px;
+  height: 4px;
+  background: var(--gold);
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  left: 0; top: 0;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 6px rgba(201,168,76,0.8);
+}
+/* Eliminar cursor default en links y botones */
+a, button, input, textarea, select {
+  cursor: none !important;
+}

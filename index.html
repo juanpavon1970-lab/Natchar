@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Natchar — Alma Colombiana</title>
+
+  <!-- CSS: el orden importa -->
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/nav.css">
+  <link rel="stylesheet" href="css/home.css">
+</head>
+<body>
+
+  <!-- Cursor personalizado -->
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-dot" id="cursorDot"></div>
+
+  <!-- NAV -->
+  <nav>
+    <a href="index.html" class="nav-logo">Nat<span>ch</span>ar</a>
+    <ul>
+      <li><a href="index.html">Inicio</a></li>
+      <li><a href="menu.html">Menú</a></li>
+      <li><a href="nosotros.html">Nosotros</a></li>
+      <li><a href="reservas.html">Reservar</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-pattern"></div>
+    <div class="glyph-ring"></div>
+    <div class="glyph-ring"></div>
+    <div class="glyph-ring"></div>
+
+    <p class="hero-eyebrow">Cali, Colombia — Alma Ancestral</p>
+
+    <h1 class="hero-title glitch" data-text="NATCHAR">
+      NATCHAR
+      <span class="cyber-line">— Sabor Precolombiano —</span>
+    </h1>
+
+    <p class="hero-sub">
+      Donde el maíz dorado se encuentra con el futuro.<br>
+      Donde los cuentos de los Hermanos Grimm se cuentan<br>
+      entre tamales y changua del amanecer.
+    </p>
+
+    <div class="hero-ctas">
+      <a href="menu.html" class="btn-primary">Ver el menú</a>
+      <a href="reservas.html" class="btn-ghost">Hacer reserva</a>
+    </div>
+
+    <div class="scroll-hint">
+      <span>Descubrir</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- HORARIOS -->
+  <section class="section" id="horarios">
+    <p class="section-label">Rituales del día</p>
+    <h2 class="section-title">Horarios &amp; Servicios</h2>
+
+    <div class="horarios-grid">
+      <div class="horario-card">
+        <span class="horario-icon">☕</span>
+        <p class="horario-name">El Amanecer</p>
+        <p class="horario-time">06:00 — 11:00 AM</p>
+        <p class="horario-desc">El desayuno más colombiano del universo. Pan recién horneado, café de la Sierra Nevada, changua que calienta el alma.</p>
+        <div class="horario-items">
+          <span class="tag">Changua</span>
+          <span class="tag">Calentado</span>
+          <span class="tag">Pandebono</span>
+          <span class="tag">Café de olla</span>
+        </div>
+      </div>
+      <div class="horario-card">
+        <span class="horario-icon">☀</span>
+        <p class="horario-name">Brunch Dorado</p>
+        <p class="horario-time">10:00 AM — 2:00 PM</p>
+        <p class="horario-desc">Entre el desayuno y el almuerzo, donde los Grimm se narran en voz alta y el tamal llega envuelto en hoja de bijao.</p>
+        <div class="horario-items">
+          <span class="tag">Tamal caleño</span>
+          <span class="tag">Aborrajados</span>
+          <span class="tag">Jugos de lulo</span>
+          <span class="tag">Cuentos</span>
+        </div>
+      </div>
+      <div class="horario-card">
+        <span class="horario-icon">🍽</span>
+        <p class="horario-name">El Gran Almuerzo</p>
+        <p class="horario-time">12:00 — 4:00 PM</p>
+        <p class="horario-desc">La hora sagrada. Bandeja paisa, sancocho de gallina criolla, sudado de pescado del Pacífico. Colombia en un plato.</p>
+        <div class="horario-items">
+          <span class="tag">Bandeja Paisa</span>
+          <span class="tag">Sancocho</span>
+          <span class="tag">Ajiaco</span>
+          <span class="tag">Sudado</span>
+        </div>
+      </div>
+      <div class="horario-card">
+        <span class="horario-icon">🌙</span>
+        <p class="horario-name">Media Tarde</p>
+        <p class="horario-time">3:00 — 7:00 PM</p>
+        <p class="horario-desc">El ritual más dulce. Agua de panela, buñuelos, natilla, y el sol cayendo sobre los Farallones. Un domingo eterno.</p>
+        <div class="horario-items">
+          <span class="tag">Buñuelos</span>
+          <span class="tag">Natilla</span>
+          <span class="tag">Agua panela</span>
+          <span class="tag">Empanadas</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GRIMM -->
+  <section class="grimm">
+    <p class="grimm-quote">
+      "Había una vez un domingo en Cali donde el tiempo se detuvo,
+      <strong>el café humeaba</strong>, la changua cantaba en el fogón,
+      y alguien leía en voz alta que <strong>en el bosque oscuro
+      siempre hay algo que te espera</strong>..."
+    </p>
+    <div class="divider"></div>
+    <p class="grimm-sub">Los domingos · Narración en vivo · Hermanos Grimm</p>
+  </section>
+
+  <!-- MENU PREVIEW — renderizado por el controller -->
+  <section class="section" id="menu">
+    <p class="section-label">Nuestra cocina</p>
+    <h2 class="section-title">Lo que nos define</h2>
+    <!-- 
+      Este div está vacío a propósito.
+      El controller lo va a llenar con
+      los platos del model automáticamente.
+    -->
+    <div class="platos-grid"></div>
+
+    <div style="text-align:center; margin-top: 3rem;">
+      <a href="menu.html" class="btn-ghost">Ver menú completo</a>
+    </div>
+  </section>
+
+<!-- JS -->
+  <script>
+    // --- Cursor ---
+    const cursor = document.getElementById('cursor')
+    const dot = document.getElementById('cursorDot')
+    let mx = 0, my = 0, cx = 0, cy = 0
+
+    document.addEventListener('mousemove', e => {
+      mx = e.clientX
+      my = e.clientY
+      dot.style.left = mx + 'px'
+      dot.style.top = my + 'px'
+    })
+
+    function animarCursor() {
+      cx += (mx - cx) * 0.12
+      cy += (my - cy) * 0.12
+      cursor.style.left = cx + 'px'
+      cursor.style.top = cy + 'px'
+      requestAnimationFrame(animarCursor)
+    }
+    animarCursor()
+
+    document.querySelectorAll('a, button').forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        cursor.style.transform = 'translate(-50%, -50%) scale(2)'
+        cursor.style.borderColor = 'var(--gold)'
+      })
+      el.addEventListener('mouseleave', () => {
+        cursor.style.transform = 'translate(-50%, -50%) scale(1)'
+        cursor.style.borderColor = 'var(--cyber-teal)'
+      })
+    })
+
+    // --- Animaciones de entrada ---
+    // --- Platos del home ---
+    const platosHome = [
+      {
+        id: 1,
+        categoria: "Desayuno ancestral",
+        nombre: "Changua de la Abuela",
+        descripcion: "Leche entera, huevo pochado, cebolla larga y cilantro. Con pan de yuca artesanal.",
+        precio: 18000
+      },
+      {
+        id: 2,
+        categoria: "Brunch estelar",
+        nombre: "Tamal Caleño Natchar",
+        descripcion: "Masa de maíz, cerdo, pollo, zanahoria y arveja. Envuelto en hoja de bijao. Con ají casero.",
+        precio: 22000
+      },
+      {
+        id: 3,
+        categoria: "Almuerzo mayor",
+        nombre: "Bandeja Paisa Completa",
+        descripcion: "Fríjoles, arroz, chicharrón, chorizo, morcilla, aguacate, huevo frito, maduro y arepa.",
+        precio: 38000
+      },
+      {
+        id: 4,
+        categoria: "Media tarde",
+        nombre: "El Domingo Eterno",
+        descripcion: "Buñuelos, natilla, bollo de choclo y agua de panela con limón y jengibre.",
+        precio: 24000
+      },
+      {
+        id: 5,
+        categoria: "Bebida sagrada",
+        nombre: "Café Estrella del Sur",
+        descripcion: "Café de origen Valle del Cauca, chemex o prensa francesa. Con panela artesanal.",
+        precio: 9000
+      },
+      {
+        id: 6,
+        categoria: "Especial domingos",
+        nombre: "Sancocho de Gallina Criolla",
+        descripcion: "Gallina criolla, papa criolla, mazorca, yuca y plátano. Seis horas de cocción lenta.",
+        precio: 32000
+      }
+    ]
+
+    const grid = document.querySelector('.platos-grid')
+    if (grid) {
+      grid.innerHTML = platosHome.map((plato, i) => `
+        <div class="plato">
+          <span class="plato-num">0${i + 1}</span>
+          <p class="plato-cat">${plato.categoria}</p>
+          <p class="plato-name">${plato.nombre}</p>
+          <p class="plato-desc">${plato.descripcion}</p>
+          <p class="plato-price"><span>$</span> ${plato.precio.toLocaleString('es-CO')} COP</p>
+        </div>
+      `).join('')
+    }
+    
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1'
+          entry.target.style.transform = 'translateY(0)'
+        }
+      })
+    }, { threshold: 0.1 })
+
+    document.querySelectorAll('.horario-card, .plato, .contact-item').forEach(el => {
+      el.style.opacity = '0'
+      el.style.transform = 'translateY(20px)'
+      el.style.transition = 'opacity 0.6s ease, transform 0.6s ease'
+      observer.observe(el)
+    })
+  </script>
+
+</body>
+</html>

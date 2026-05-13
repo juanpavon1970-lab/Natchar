@@ -1,0 +1,94 @@
+/* ================================
+   NATCHAR — Navegación
+   La barra de nav es fija arriba
+   y aparece en TODAS las páginas.
+================================ */
+
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.2rem 3rem;
+  background: linear-gradient(to bottom, rgba(10,8,5,0.95), transparent);
+  border-bottom: 0.5px solid rgba(201,168,76,0.15);
+}
+
+/* Logo */
+.nav-logo {
+  font-family: var(--font-title);
+  font-size: 1.4rem;
+  font-weight: 900;
+  color: var(--gold);
+  letter-spacing: 0.15em;
+  text-shadow: 0 0 30px rgba(201,168,76,0.4);
+  text-decoration: none;
+}
+.nav-logo span {
+  color: var(--cyber-teal);
+}
+
+/* Links */
+nav ul {
+  display: flex;
+  gap: 2.5rem;
+  list-style: none;
+}
+
+nav ul a {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  text-decoration: none;
+  transition: color 0.3s;
+  position: relative;
+}
+
+/* Línea animada debajo del link */
+nav ul a::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--cyber-teal);
+  transform: scaleX(0);
+  transition: transform 0.3s;
+}
+
+nav ul a:hover {
+  color: var(--cyber-teal);
+}
+nav ul a:hover::after {
+  transform: scaleX(1);
+}
+
+/* Link activo — la página donde estás */
+nav ul a.activo {
+  color: var(--gold);
+}
+nav ul a.activo::after {
+  background: var(--gold);
+  transform: scaleX(1);
+}
+
+/* Responsive — en móvil el nav se achica */
+@media (max-width: 768px) {
+  nav {
+    padding: 1rem 1.5rem;
+  }
+  nav ul {
+    gap: 1.2rem;
+  }
+  .nav-logo {
+    font-size: 1.1rem;
+  }
+}

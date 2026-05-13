@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reservas — Natchar</title>
+
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/nav.css">
+  <link rel="stylesheet" href="css/reservas.css">
+</head>
+<body>
+
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-dot" id="cursorDot"></div>
+
+  <!-- NAV -->
+  <nav>
+    <a href="index.html" class="nav-logo">Nat<span>ch</span>ar</a>
+    <ul>
+      <li><a href="index.html">Inicio</a></li>
+      <li><a href="menu.html">Menú</a></li>
+      <li><a href="nosotros.html">Nosotros</a></li>
+      <li><a href="reservas.html" class="activo">Reservar</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="res-hero">
+    <div class="hero-bg"></div>
+    <p class="hero-eyebrow">Agenda tu visita</p>
+    <h1 class="res-hero-title">Haz tu<br><span>Reserva</span></h1>
+    <p class="res-hero-sub">Cuéntanos cuándo vienes y te tenemos todo listo.</p>
+  </section>
+
+  <!-- FORMULARIO -->
+  <section class="section res-section">
+    <div class="res-grid">
+
+      <!-- Formulario izquierda -->
+      <div class="res-form-wrap">
+        <p class="section-label">Tus datos</p>
+
+        <div class="form-group">
+          <label class="form-label">Nombre completo</label>
+          <input type="text" class="form-input" id="nombre" placeholder="¿Cómo te llamas?">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">WhatsApp</label>
+          <input type="tel" class="form-input" id="telefono" placeholder="+57 300 000 0000">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Correo electrónico</label>
+          <input type="email" class="form-input" id="correo" placeholder="tu@correo.com">
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Fecha</label>
+            <input type="date" class="form-input" id="fecha">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Número de personas</label>
+            <input type="number" class="form-input" id="personas" placeholder="2" min="1" max="20">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Horario</label>
+          <div class="horario-opciones">
+            <div class="horario-opcion" data-valor="amanecer">
+              <span>☕</span>
+              <p>El Amanecer</p>
+              <small>6am – 11am</small>
+            </div>
+            <div class="horario-opcion" data-valor="brunch">
+              <span>☀</span>
+              <p>Brunch Dorado</p>
+              <small>10am – 2pm</small>
+            </div>
+            <div class="horario-opcion" data-valor="almuerzo">
+              <span>🍽</span>
+              <p>Gran Almuerzo</p>
+              <small>12pm – 4pm</small>
+            </div>
+            <div class="horario-opcion" data-valor="tarde">
+              <span>🌙</span>
+              <p>Media Tarde</p>
+              <small>3pm – 7pm</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">¿Alguna nota especial?</label>
+          <textarea class="form-input form-textarea" id="nota" placeholder="Alergias, ocasión especial, ¿quieres escuchar los Grimm?..."></textarea>
+        </div>
+
+        <button class="btn-reservar" id="btnReservar">
+          Confirmar reserva
+        </button>
+
+        <!-- Mensaje de éxito -->
+        <div class="exito-msg" id="exitoMsg">
+          <span>✦</span>
+          <p>¡Reserva recibida! Te contactamos pronto por WhatsApp.</p>
+        </div>
+      </div>
+
+      <!-- Info derecha -->
+      <div class="res-info">
+        <p class="section-label">Encuéntranos</p>
+
+        <div class="info-item">
+          <p class="info-label">Dirección</p>
+          <p class="info-valor">Sector Hotel Intercontinental<br>Cali, Valle del Cauca</p>
+        </div>
+
+        <div class="info-item">
+          <p class="info-label">WhatsApp directo</p>
+          <p class="info-valor">+57 300 000 0000</p>
+        </div>
+
+        <div class="info-item">
+          <p class="info-label">Correo</p>
+          <p class="info-valor">natchar.cali@gmail.com</p>
+        </div>
+
+        <div class="info-item">
+          <p class="info-label">Horario general</p>
+          <p class="info-valor">
+            Lunes a Viernes · 6am – 7pm<br>
+            Sábados y Domingos · 6am – 8pm
+          </p>
+        </div>
+
+        <div class="info-item">
+          <p class="info-label">Cuentos Grimm</p>
+          <p class="info-valor">
+            Todos los domingos<br>
+            12pm – 3pm · Entrada libre
+          </p>
+        </div>
+
+        <!-- Mapa decorativo -->
+        <div class="mapa-deco">
+          <div class="mapa-grid"></div>
+          <div class="mapa-pin"></div>
+          <p class="mapa-label">Cali · Valle del Cauca · Colombia</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- VOLVER -->
+  <div class="volver-wrap">
+    <a href="index.html" class="btn-ghost">← Volver al inicio</a>
+  </div>
+
+  <script>
+  // --- Horario seleccionable ---
+  let horarioSeleccionado = null
+
+  document.querySelectorAll('.horario-opcion').forEach(op => {
+    op.addEventListener('click', () => {
+      document.querySelectorAll('.horario-opcion').forEach(o => o.classList.remove('activo'))
+      op.classList.add('activo')
+      horarioSeleccionado = op.dataset.valor
+    })
+  })
+
+  // --- Mostrar error en campo ---
+  function marcarError(id, mensaje) {
+    const el = document.getElementById(id)
+    el.style.borderColor = 'rgba(139,26,26,0.8)'
+    let hint = el.parentElement.querySelector('.field-hint')
+    if (!hint) {
+      hint = document.createElement('p')
+      hint.className = 'field-hint error'
+      el.parentElement.appendChild(hint)
+    }
+    hint.textContent = mensaje
+  }
+
+  // --- Limpiar error en campo ---
+  function limpiarError(id) {
+    const el = document.getElementById(id)
+    el.style.borderColor = 'rgba(201,168,76,0.2)'
+    const hint = el.parentElement.querySelector('.field-hint')
+    if (hint) hint.remove()
+  }
+
+  // --- Validar teléfono en tiempo real ---
+  document.getElementById('telefono').addEventListener('input', function() {
+    const val = this.value.replace(/\s/g, '')
+    if (val && !/^\+\d{7,15}$/.test(val)) {
+      marcarError('telefono', 'Incluye código de país. Ej: +57 300 0000000')
+    } else {
+      limpiarError('telefono')
+    }
+  })
+
+  // --- Validar correo en tiempo real ---
+  document.getElementById('correo').addEventListener('input', function() {
+    const val = this.value.trim()
+    if (val && !val.includes('@')) {
+      marcarError('correo', 'El correo debe contener @')
+    } else {
+      limpiarError('correo')
+    }
+  })
+
+  // --- Mostrar notificación flotante ---
+  function mostrarNotificacion(mensaje, tipo = 'exito') {
+    // Eliminar notificación anterior si existe
+    const anterior = document.getElementById('notificacionFlotante')
+    if (anterior) anterior.remove()
+
+    const noti = document.createElement('div')
+    noti.id = 'notificacionFlotante'
+    noti.className = `notificacion-flotante ${tipo}`
+    noti.innerHTML = `
+      <span class="noti-icon">${tipo === 'exito' ? '✦' : '⚠'}</span>
+      <p>${mensaje}</p>
+      <div class="noti-barra"></div>
+    `
+    document.body.appendChild(noti)
+
+    // Animar barra de tiempo
+    setTimeout(() => noti.classList.add('visible'), 10)
+
+    // Desaparecer a los 10 segundos
+    setTimeout(() => {
+      noti.classList.remove('visible')
+      setTimeout(() => noti.remove(), 400)
+    }, 10000)
+  }
+
+  // --- Resetear formulario ---
+  function resetearFormulario() {
+    document.getElementById('nombre').value    = ''
+    document.getElementById('telefono').value  = ''
+    document.getElementById('correo').value    = ''
+    document.getElementById('fecha').value     = ''
+    document.getElementById('personas').value  = ''
+    document.getElementById('nota').value      = ''
+    document.querySelectorAll('.horario-opcion').forEach(o => o.classList.remove('activo'))
+    horarioSeleccionado = null
+    document.querySelectorAll('.field-hint').forEach(h => h.remove())
+    document.querySelectorAll('.form-input').forEach(i => {
+      i.style.borderColor = 'rgba(201,168,76,0.2)'
+    })
+  }
+
+  // --- Enviar reserva ---
+  document.getElementById('btnReservar').addEventListener('click', async () => {
+    const nombre   = document.getElementById('nombre').value.trim()
+    const telefono = document.getElementById('telefono').value.trim()
+    const correo   = document.getElementById('correo').value.trim()
+    const fecha    = document.getElementById('fecha').value
+    const personas = document.getElementById('personas').value
+    const nota     = document.getElementById('nota').value.trim()
+
+    // Limpiar errores previos
+    ;['nombre','telefono','correo','fecha','personas'].forEach(limpiarError)
+
+    let hayErrores = false
+
+    // Validar campos obligatorios
+    if (!nombre) {
+      marcarError('nombre', 'El nombre es obligatorio')
+      hayErrores = true
+    }
+    if (!telefono) {
+      marcarError('telefono', 'El teléfono es obligatorio')
+      hayErrores = true
+    } else if (!/^\+\d{7,15}$/.test(telefono.replace(/\s/g,''))) {
+      marcarError('telefono', 'Incluye código de país. Ej: +57 300 0000000')
+      hayErrores = true
+    }
+    if (correo && !correo.includes('@')) {
+      marcarError('correo', 'El correo debe contener @')
+      hayErrores = true
+    }
+    if (!fecha) {
+      marcarError('fecha', 'Selecciona una fecha')
+      hayErrores = true
+    }
+    if (!personas) {
+      marcarError('personas', 'Indica el número de personas')
+      hayErrores = true
+    }
+    if (!horarioSeleccionado) {
+      document.querySelector('.horario-opciones').style.outline = '1px solid rgba(139,26,26,0.5)'
+      hayErrores = true
+    } else {
+      document.querySelector('.horario-opciones').style.outline = 'none'
+    }
+
+    if (hayErrores) return
+
+    // Deshabilitar botón mientras envía
+    const btn = document.getElementById('btnReservar')
+    btn.textContent = 'Enviando...'
+    btn.disabled = true
+
+    try {
+      const res = await fetch('/api/reservas', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          nombre,
+          telefono,
+          correo,
+          fecha,
+          personas: parseInt(personas),
+          horario: horarioSeleccionado,
+          nota
+        })
+      })
+
+      const data = await res.json()
+
+      if (data.ok) {
+        // Notificación de éxito
+        mostrarNotificacion('¡Reserva confirmada! Te contactamos pronto por WhatsApp. 🎉')
+        // Resetear formulario después de 1 segundo
+        setTimeout(resetearFormulario, 1000)
+      } else {
+        // Mostrar error específico del servidor
+        mostrarNotificacion(data.error, 'error')
+        if (data.error.includes('teléfono')) {
+          marcarError('telefono', data.error)
+        }
+      }
+
+    } catch (err) {
+      mostrarNotificacion('Error de conexión. Intenta de nuevo.', 'error')
+    } finally {
+      btn.textContent = 'Confirmar reserva'
+      btn.disabled = false
+    }
+  })
+
+  // --- Cursor ---
+  const cursor = document.getElementById('cursor')
+  const dot    = document.getElementById('cursorDot')
+  let mx = 0, my = 0, cx = 0, cy = 0
+
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX
+    my = e.clientY
+    dot.style.left = mx + 'px'
+    dot.style.top  = my + 'px'
+  })
+
+  function animarCursor() {
+    cx += (mx - cx) * 0.12
+    cy += (my - cy) * 0.12
+    cursor.style.left = cx + 'px'
+    cursor.style.top  = cy + 'px'
+    requestAnimationFrame(animarCursor)
+  }
+  animarCursor()
+
+  document.querySelectorAll('a, button, input, textarea, .horario-opcion').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      cursor.style.transform   = 'translate(-50%, -50%) scale(2)'
+      cursor.style.borderColor = 'var(--gold)'
+    })
+    el.addEventListener('mouseleave', () => {
+      cursor.style.transform   = 'translate(-50%, -50%) scale(1)'
+      cursor.style.borderColor = 'var(--cyber-teal)'
+    })
+  })
+
+  // Animaciones entrada
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1'
+        entry.target.style.transform = 'translateY(0)'
+      }
+    })
+  }, { threshold: 0.1 })
+
+  document.querySelectorAll('.info-item, .form-group').forEach(el => {
+    el.style.opacity = '0'
+    el.style.transform = 'translateY(20px)'
+    el.style.transition = 'opacity 0.5s ease, transform 0.5s ease'
+    observer.observe(el)
+  })
+</script>
+
+</body>
+</html>

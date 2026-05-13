@@ -1,0 +1,41 @@
+:root {
+  /* Colores */
+  --gold:        #C9A84C;
+  --gold-light:  #F0D080;
+  --gold-dark:   #7A5C1E;
+  --cyber-teal:  #00FFD1;
+  --blood:       #8B1A1A;
+  --obsidian:    #0A0805;
+  --deep:        #110E08;
+  --surface:     #1A1510;
+  --surface2:    #221C12;
+  --text:        #E8D5A3;
+  --text-dim:    #8A7550;
+  --accent:      #FF6B35;
+
+  /* Tipografía */
+  --font-title:  'Cinzel Decorative', serif;
+  --font-body:   'Rajdhani', sans-serif;
+  --font-italic: 'IM Fell English', serif;
+}
+
+/* Reset — borra los estilos por defecto del navegador */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--obsidian);
+  color: var(--text);
+  font-family: var(--font-body);
+  overflow-x: hidden;
+}
+
+/* Importar fuentes de Google */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&family=IM+Fell+English:ital@0;1&display=swap');
