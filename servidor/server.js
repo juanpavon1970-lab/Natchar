@@ -1,7 +1,6 @@
 const express  = require('express')
 const path     = require('path')
 const db       = require('./database')
-const twilio   = require('twilio')
 
 const app  = express()
 const PORT = 3000
@@ -15,13 +14,6 @@ const MAX_PERSONAS         = 20  // máx personas por reserva
 const MAX_DIAS_FUTURO      = 60  // máx días hacia el futuro
 const DIAS_PAPELERA        = 7   // días antes de limpiar papelera
 const PANEL_PASSWORD       = 'natchar2024' // contraseña del panel
-
-const twilioClient = twilio(
-  'ACdc7ffad126dfb9b3973fcad964899b52',
-  '47b441cfb63f3a4c0ed7515fba69f141'
-)
-const TWILIO_FROM = 'whatsapp:+14155238886'
-const TWILIO_TO   = 'whatsapp:+573153283179'
 
 // ─────────────────────────────────
 // MIDDLEWARES
@@ -286,7 +278,7 @@ app.post('/api/reservas', async (req, res) => {
       VALUES ('nueva_reserva', ?)
     `).run(`Reserva #${resultado.lastInsertRowid} — ${nombre} — ${fecha} — ${horario}`)
 
-    await notificarWhatsApp({ nombre, telefono: telefonoLimpio, correo, fecha, personas, horario, nota })
+//    await notificarWhatsApp({ nombre, telefono: telefonoLimpio, correo, fecha, personas, horario, nota })
 
     res.json({ ok: true, id: resultado.lastInsertRowid, mensaje: '✦ Reserva confirmada' })
 
